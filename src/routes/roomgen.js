@@ -1,5 +1,5 @@
 import express from "express"
-import {createRoom,checkRoomBooked,bookRoom,getAllRoomStatus} from "./helper.js"
+import {createRoom,checkRoomBooked,bookRoom,getAllRoomStatus,getAllCustomData} from "./helper.js"
 
 export const roomRoute = express.Router()
 
@@ -18,6 +18,11 @@ roomRoute.post("/book",express.json(),async (req,res)=>{
 
 roomRoute.get("/roomstatus",async (req,res)=>{
     const response = await getAllRoomStatus()
+    res.send(response)
+})
+
+roomRoute.get("/customersdata",async (req,res)=>{
+    const response = await getAllCustomData()
     res.send(response)
 })
 

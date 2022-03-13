@@ -46,7 +46,26 @@ async function checkRoomBooked(roomData,startDate,endDate){
 }
 async function getAllRoomStatus(){
     const getRoomDataFromDb = await client.db("node-task2").collection("rooms").find().toArray()
-    return getRoomDataFromDb;
+    const result =[]
+    for(let i =0;i<getRoomDataFromDb.length;i++){
+        let roomId = getRoomDataFromDb[i].roomid
+        const roomStatus = await client.db("node-task2").collection("booked").find({ roomid: getRoomDataFromDb[i].roomid }).toArray()
+        if(roomStatus.length){
+            const data = {roomName:roomId,bookedStatus:true,customerData:roomStatus}
+            result.push(data)
+        }
+        else{
+            const data = {roomName:roomId,bookedStatus:false}
+            result.push(data)
+        }
+    }
+    return result;
 }
 
-export {createRoom,bookRoom,checkRoomBooked,getAllRoomStatus}
+
+async function getAllCustomData(){
+    const customersData = await client.db("node-task2").collection("booked").find({}).toArray()
+    return customersData;
+}
+
+export {createRoom,bookRoom,checkRoomBooked,getAllCustomData,getAllRoomStatus}

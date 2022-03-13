@@ -8,7 +8,7 @@ dotenv.config()
 const app = express()
 
 app.listen(process.env.PORT,()=>console.log(`Server listening on port ${process.env.PORT}`))
-
+console.log(process.env.MONGO_DB)
 async function createConnection(){
     const client = new MongoClient(process.env.MONGO_DB)
     await client.connect();
